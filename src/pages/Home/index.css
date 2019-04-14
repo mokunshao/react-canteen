@@ -1,0 +1,21 @@
+.home {
+  background: #f8f9fa;
+  background: url('../../assets/background.jpg');
+  background-size: cover;
+  height: 85vh;
+  padding: 10%;
+  text-align: center;
+}
+
+.background {
+  background: #ffffff;
+  opacity: 0.5;
+  max-width: 70vw;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.background h1{
+  margin: 6%;
+  font-weight: bold;
+}

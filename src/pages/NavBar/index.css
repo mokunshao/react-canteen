@@ -1,0 +1,26 @@
+.header {
+  background: #f8f9fa;
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+
+.logo {
+  padding: 0 15px;
+}
+
+.menu-left {
+  display: inline-block;
+  background: none;
+  width: calc(100% - 100px);
+}
+
+.login {
+  position: absolute;
+  right: 80px;
+}
+
+.register {
+  position: absolute;
+  right: 10px;
+}
