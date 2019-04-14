@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './index.css';
 import { Layout } from 'antd';
-import Navbar from '../pages/NavBar';
+import Navbar from './NavBar';
 
 const BasicLayout: React.FC = props => {
   return (

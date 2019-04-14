@@ -3,7 +3,7 @@ import { Menu } from 'antd';
 import styles from './index.css';
 import { Link } from 'dva/router';
 
-export default function index() {
+const NavBar: React.FC = () => {
   return (
     <nav className={styles.header}>
       <a className={styles.logo} href="#">
@@ -23,12 +23,14 @@ export default function index() {
           <Link to={'/about'}>关于我们</Link>
         </Menu.Item>
         <Menu.Item key={'login'} className={styles.login} style={{ position: 'absolute' }}>
-          <Link to={'/login'}>登录</Link>
+          <Link to={'/user/login'}>登录</Link>
         </Menu.Item>
         <Menu.Item key={'register'} className={styles.register} style={{ position: 'absolute' }}>
-          <Link to={'/register'}>注册</Link>
+          <Link to={'/user/register'}>注册</Link>
         </Menu.Item>
       </Menu>
     </nav>
   );
-}
+};
+
+export default NavBar;
