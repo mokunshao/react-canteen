@@ -35,7 +35,16 @@ const config: IConfig = {
         { path: '/home', component: './Home' },
         { path: '/menu', component: './Menu' },
         { path: './admin', component: './Admin' },
-        { path: './about', component: './About' },
+        {
+          path: './about',
+          component: './About',
+          routes: [
+            { path: '/about/history', component: './About/History' },
+            { path: '/about/docs', component: './About/Docs' },
+            { path: '/about/delivery', component: './About/Delivery' },
+            { path: '/about/contact', component: './About/Contact' },
+          ],
+        },
         { path: './register', component: './Register' },
         { path: './login', component: './Login' },
       ],
