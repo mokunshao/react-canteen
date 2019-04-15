@@ -3,17 +3,22 @@ import styles from './index.css';
 import { Layout } from 'antd';
 import Navbar from './NavBar';
 
-const BasicLayout: React.FC = props => {
+interface Props {
+  location: { pathname: string };
+  children: any;
+}
+
+function BasicLayout(props: Props) {
   return (
     <>
       <Layout className={styles.layout}>
         <Layout.Header className={styles.header}>
-          <Navbar />
+          <Navbar location={props.location} />
         </Layout.Header>
         <Layout.Content className={styles.content}>{props.children}</Layout.Content>
       </Layout>
     </>
   );
-};
+}
 
 export default BasicLayout;
