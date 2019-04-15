@@ -1,7 +1,8 @@
-/* .about{
-
+.about{
+display: flex;
+flex-direction: row;
 }
 
 .tabs{
-  
-} */
+  display: inline-flex;
+}
