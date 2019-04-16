@@ -36,13 +36,21 @@ const config: IConfig = {
         { path: '/menu', component: './Menu' },
         { path: './admin', component: './Admin' },
         {
-          path: './about',
+          path: './about/:section',
           component: './About',
           routes: [
-            { path: '/about/history', component: './About/History' },
-            { path: '/about/docs', component: './About/Docs' },
-            { path: '/about/delivery', component: './About/Delivery' },
-            { path: '/about/contact', component: './About/Contact' },
+            { path: '/about', redirect: '/about/history' },
+            { path: '/about/history' },
+            { path: '/about/docs' },
+            { path: '/about/delivery' },
+            {
+              path: '/about/contact/:method',
+              routes: [
+                { path: '/about/contact', redirect: '/about/contact/phone' },
+                { path: '/about/contact/phone' },
+                { path: '/about/contact/address' },
+              ],
+            },
           ],
         },
         { path: './register', component: './Register' },

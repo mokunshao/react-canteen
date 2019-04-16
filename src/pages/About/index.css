@@ -1,8 +1,26 @@
-.about{
-display: flex;
-flex-direction: row;
+.about {
+  display: flex;
+  flex-direction: row;
 }
 
-.tabs{
+.tabs {
   display: inline-flex;
+}
+
+.links {
+  margin: 10px 0;
+}
+
+.links a {
+  display: inline-block;
+  border-radius: 5px;
+  margin-right: 15px;
+  color: #666;
+  border: solid 1px #666;
+  padding: 5px;
+}
+
+.selected {
+  border: solid 1px #40a9ff !important;
+  color: #40a9ff !important;
 }

@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
 export default function Docs() {
   return (
     <div>
-      Docs
+      <h2>点餐文档</h2>
     </div>
-  )
+  );
 }

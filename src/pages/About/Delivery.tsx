@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
 export default function Delivery() {
   return (
     <div>
-      Delivery
+      <h2>快递信息</h2>
     </div>
-  )
+  );
 }
