@@ -4,7 +4,7 @@ export default {
   namespace: 'global',
   state: {
     text: 'hello umi+dva',
-    login: false,
+    login: true,
   },
   reducers: {
     setText(state: any) {
