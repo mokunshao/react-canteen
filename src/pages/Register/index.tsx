@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Logo from 'Assets/logo.png';
 import styles from './index.scss';
 import { Form, Input, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { email_regexp, password_regexp } from '@/utilities/Regexp';
-import Request from '@/utilities/Request';
+import AV from '@/utilities/Leancloud';
 
 interface UserFormProps extends FormComponentProps {
   history: {
@@ -21,7 +21,7 @@ function Register(props: UserFormProps) {
     }
   };
 
-  const passwordValidator1 = (rule: any, value: string, callback: Function): void => {
+  const passwordValidator = (rule: any, value: string, callback: Function): void => {
     if (value && !value.match(rule.pattern)) {
       callback(rule.message);
     } else {
@@ -30,7 +30,7 @@ function Register(props: UserFormProps) {
   };
 
   const confirmPasswordValidator = (rule: any, value: string, callback: Function): void => {
-    if (value !== props.form.getFieldValue('firstPassword')) {
+    if (value !== props.form.getFieldValue('password')) {
       callback(rule.message);
     } else {
       callback();
@@ -42,13 +42,16 @@ function Register(props: UserFormProps) {
     props.form.validateFieldsAndScroll((err: ErrorEvent, values: any) => {
       if (!err) {
         const { email, password } = values;
-        Request('/user.json', { method: 'post', data: { email, password } }).then(e => {
-          if (e.status === 200 && e.data) {
+        console.log(email, password);
+        AV.User.signUp(email, password)
+          .then(e => {
+            console.log(e);
+            console.log(e.previousAttributes);
             props.history.push('/login');
-          }
-        });
-      } else {
-        console.log(err);
+          })
+          .catch(e => {
+            console.log(e);
+          });
       }
     });
   }
@@ -71,7 +74,7 @@ function Register(props: UserFormProps) {
           })(<Input />)}
         </Form.Item>
         <Form.Item label={'密码'}>
-          {props.form.getFieldDecorator('firstPassword', {
+          {props.form.getFieldDecorator('password', {
             rules: [
               {
                 required: true,
@@ -79,7 +82,7 @@ function Register(props: UserFormProps) {
               },
               {
                 pattern: password_regexp,
-                validator: passwordValidator1,
+                validator: passwordValidator,
                 message: '请输入正确的密码格式：6-16位字母、数字或特殊字符 _-.',
               },
             ],
@@ -101,6 +104,11 @@ function Register(props: UserFormProps) {
               {
                 validator: confirmPasswordValidator,
                 message: '两次输入的密码不一致！',
+              },
+              {
+                pattern: password_regexp,
+                validator: passwordValidator,
+                message: '请输入正确的密码格式：6-16位字母、数字或特殊字符 _-.',
               },
             ],
           })(<Input type={'password'} maxLength={16} placeholder="请输入确认密码" />)}
