@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tabs } from 'antd';
-import styles from './index.css';
+import styles from './index.scss';
 import { Switch, Route, Redirect } from 'dva/router';
 import History from './History';
 import Contact from './Contact';

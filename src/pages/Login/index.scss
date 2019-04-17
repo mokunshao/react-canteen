@@ -1,0 +1,13 @@
+.logo {
+  display: block;
+  margin: auto;
+}
+
+:global(.btn) {
+  width: 100%;
+  margin-top: 15px;
+}
+
+:global(.ant-form-item){
+  margin-bottom: 0;
+}

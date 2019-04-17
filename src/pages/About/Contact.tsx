@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route, Link, Redirect } from 'dva/router';
-import styles from './index.css';
+import styles from './index.scss';
 
 function Phone() {
   return <div>客服热线：400400400</div>;

@@ -1,7 +1,9 @@
 import { IConfig } from 'umi-types';
+import path from 'path';
 
 // ref: https://umijs.org/config/
 const config: IConfig = {
+  alias: { Assets: path.resolve(__dirname, './src/assets') },
   treeShaking: true,
   history: 'hash',
   plugins: [
