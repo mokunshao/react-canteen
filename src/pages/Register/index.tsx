@@ -4,18 +4,15 @@ import styles from './index.scss';
 import { Form, Input, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { email_regexp, password_regexp } from '@/utilities/Regexp';
+import Request from '@/utilities/Request';
 
-interface Props {
-  form: { getFieldDecorator: Function; getFieldValue: Function };
+interface UserFormProps extends FormComponentProps {
+  history: {
+    push: Function;
+  };
 }
 
-// interface UserFormProps extends FormComponentProps {
-//   age: number;
-//   name: string;
-// }
-
-function Register(props: Props) {
-  // const [email, setEmail] = useState('abc@abc.com');
+function Register(props: UserFormProps) {
   const formValidator = (rule: any, value: string, callback: Function): void => {
     if (value && rule.pattern && !value.match(rule.pattern)) {
       callback(rule.message);
@@ -39,6 +36,22 @@ function Register(props: Props) {
       callback();
     }
   };
+
+  function handleRegister(e: React.MouseEvent) {
+    e.preventDefault();
+    props.form.validateFieldsAndScroll((err: ErrorEvent, values: any) => {
+      if (!err) {
+        const { email, password } = values;
+        Request('/user.json', { method: 'post', data: { email, password } }).then(e => {
+          if (e.status === 200 && e.data) {
+            props.history.push('/login');
+          }
+        });
+      } else {
+        console.log(err);
+      }
+    });
+  }
 
   return (
     <div>
@@ -92,7 +105,7 @@ function Register(props: Props) {
             ],
           })(<Input type={'password'} maxLength={16} placeholder="请输入确认密码" />)}
         </Form.Item>
-        <Button className={'btn'} type={'primary'}>
+        <Button onClick={handleRegister} className={'btn'} type={'primary'}>
           注册
         </Button>
       </Form>
@@ -100,4 +113,4 @@ function Register(props: Props) {
   );
 }
 
-export default Form.create()(Register);
+export default Form.create<UserFormProps>()(Register);
