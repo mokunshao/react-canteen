@@ -42,16 +42,10 @@ function Register(props: UserFormProps) {
     props.form.validateFieldsAndScroll((err: ErrorEvent, values: any) => {
       if (!err) {
         const { email, password } = values;
-        console.log(email, password);
-        AV.User.signUp(email, password)
-          .then(e => {
-            console.log(e);
-            console.log(e.previousAttributes);
-            props.history.push('/login');
-          })
-          .catch(e => {
-            console.log(e);
-          });
+        AV.User.signUp(email, password).then(e => {
+          // console.log(e.attributes.username);
+          props.history.push('/login');
+        });
       }
     });
   }

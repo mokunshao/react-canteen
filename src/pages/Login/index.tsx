@@ -4,6 +4,7 @@ import styles from './index.scss';
 import { Form, Input, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { email_regexp, password_regexp } from '@/utilities/Regexp';
+import AV from '@/utilities/Leancloud';
 
 interface UserFormProps extends FormComponentProps {
   history: {
@@ -27,6 +28,19 @@ function Login(props: UserFormProps) {
       callback();
     }
   };
+
+  function handleLogin(e: React.MouseEvent) {
+    e.preventDefault();
+    props.form.validateFieldsAndScroll((err: ErrorEvent, values: any) => {
+      if (!err) {
+        const { email, password } = values;
+        AV.User.logIn(email, password).then(e => {
+          // console.log(e.attributes.username);
+          props.history.push('/admin');
+        });
+      }
+    });
+  }
 
   return (
     <div>
@@ -66,7 +80,7 @@ function Login(props: UserFormProps) {
             />,
           )}
         </Form.Item>
-        <Button className={'btn'} type={'primary'}>
+        <Button onClick={handleLogin} className={'btn'} type={'primary'}>
           登录
         </Button>
       </Form>
