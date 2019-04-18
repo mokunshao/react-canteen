@@ -3,20 +3,14 @@ import { routerRedux } from 'dva/router';
 export default {
   namespace: 'global',
   state: {
-    email: '',
+    email: 'dd',
     login: false,
   },
   reducers: {
-    // setText(state: any) {
-    //   return {
-    //     ...state,
-    //     text: 'setted dva',
-    //   };
-    // },
-    signin(state: any, payload: any) {
+    signin(state: any, action: any) {
       return {
         ...state,
-        email: payload.email,
+        email: action.payload.name,
         login: true,
       };
     },
@@ -25,12 +19,9 @@ export default {
     *login(action: any, { call, put }: any) {
       yield put({
         type: 'signin',
+        payload: action.payload,
       });
       yield put(routerRedux.push('/admin'));
     },
-    // *throwError() {
-    //   throw new Error('hi error');
-    //   return null;
-    // },
   },
 };

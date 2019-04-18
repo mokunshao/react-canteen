@@ -36,14 +36,10 @@ function Login(props: UserFormProps) {
     props.form.validateFieldsAndScroll((err: ErrorEvent, values: any) => {
       if (!err) {
         const { email, password } = values;
+        // props.dispatch({ type: 'global/login', payload: { email, password } });
         AV.User.logIn(email, password).then(
           e => {
-            // console.log(e.attributes.username);
-            props
-              .dispatch({ type: 'global/setUserInfo', payload: { name: e.attributes.username } })
-              .then(() => {
-                props.history.push('/admin');
-              });
+            props.dispatch({ type: 'global/login', payload: { name: e.attributes.username } });
           },
           () => {
             message.error('邮箱或密码错误, 请重新输入');
