@@ -1,4 +1,6 @@
 import { routerRedux } from 'dva/router';
+import AV from '@/utilities/Leancloud';
+import { message } from 'antd';
 
 export default {
   namespace: 'global',

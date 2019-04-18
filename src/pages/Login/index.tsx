@@ -36,7 +36,6 @@ function Login(props: UserFormProps) {
     props.form.validateFieldsAndScroll((err: ErrorEvent, values: any) => {
       if (!err) {
         const { email, password } = values;
-        // props.dispatch({ type: 'global/login', payload: { email, password } });
         AV.User.logIn(email, password).then(
           e => {
             props.dispatch({ type: 'global/login', payload: { name: e.attributes.username } });
