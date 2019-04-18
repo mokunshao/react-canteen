@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from 'Assets/logo.png';
 import styles from './index.scss';
-import { Form, Input, Button, message } from 'antd';
+import { Form, Input, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { email_regexp, password_regexp } from '@/utilities/Regexp';
 import { connect } from 'dva';

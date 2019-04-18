@@ -6,7 +6,6 @@ export default {
   namespace: 'global',
   state: {
     email: 'dd',
-    login: false,
   },
   reducers: {
     signin(state: any, action: any) {
@@ -27,6 +26,7 @@ export default {
           payload: { email: result.attributes.username },
         });
         sessionStorage.setItem('email', result.attributes.username);
+        sessionStorage.setItem('token', Math.random().toString());
         yield put(routerRedux.push('/admin'));
       } catch {
         message.error('邮箱或密码错误, 请重新输入');

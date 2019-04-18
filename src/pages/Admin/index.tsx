@@ -1,14 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 
-interface Props {
-  state: {
-    login: boolean;
-  };
-}
-
 function Admin(props: any) {
-  if (!props.state.login) {
+  if (!sessionStorage.email || !sessionStorage.token) {
     props.history.push('/login');
   }
   return <div>admin</div>;

@@ -1,12 +1,49 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Menu } from 'antd';
-import styles from './index.css';
+import styles from './index.scss';
 import { Link } from 'dva/router';
 import { connect } from 'dva';
 
+const menu = [
+  {
+    key: 'home',
+    path: '/home',
+    name: '主页',
+  },
+  {
+    key: 'menu',
+    path: '/menu',
+    name: '菜单',
+  },
+  {
+    key: 'admin',
+    path: '/admin',
+    name: '管理',
+  },
+  {
+    key: 'about',
+    path: '/about',
+    name: '关于我们',
+  },
+  {
+    key: 'login',
+    path: '/login',
+    name: '登录',
+    className: 'login',
+    toggle: true,
+  },
+  {
+    key: 'register',
+    path: '/register',
+    name: '注册',
+    className: 'register',
+    toggle: true,
+  },
+];
+
 interface Props {
   location: { pathname: string };
-  state: { email: string; login: boolean };
+  state: { email: string };
 }
 
 function NavBar(props: Props) {
@@ -16,8 +53,7 @@ function NavBar(props: Props) {
   return (
     <nav className={styles.header}>
       <a className={styles.logo} href="#">
-        ❤{props.state.login.toString()}
-        {props.state.email}
+        ❤{props.state.email}
       </a>
       <Menu
         className={styles['menu-left']}
@@ -25,7 +61,12 @@ function NavBar(props: Props) {
         defaultSelectedKeys={['home']}
         selectedKeys={[seletedKeys()]}
       >
-        <Menu.Item key={'home'}>
+        {menu.map(({key, path, name,className,toggle}) => {
+         return <Menu.Item key={key} className={styles[`${className}`]}>
+            <Link to={path}>{name}</Link>
+          </Menu.Item>
+        })}
+        {/* <Menu.Item key={'home'}>
           <Link to={'/home'}>主页</Link>
         </Menu.Item>
         <Menu.Item key={'menu'}>
@@ -42,7 +83,7 @@ function NavBar(props: Props) {
         </Menu.Item>
         <Menu.Item key={'register'} className={styles.register} style={{ position: 'absolute' }}>
           <Link to={'/register'}>注册</Link>
-        </Menu.Item>
+        </Menu.Item> */}
       </Menu>
     </nav>
   );
