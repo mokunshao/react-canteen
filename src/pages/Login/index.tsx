@@ -4,7 +4,6 @@ import styles from './index.scss';
 import { Form, Input, Button, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { email_regexp, password_regexp } from '@/utilities/Regexp';
-import AV from '@/utilities/Leancloud';
 import { connect } from 'dva';
 
 interface UserFormProps extends FormComponentProps {
@@ -36,14 +35,7 @@ function Login(props: UserFormProps) {
     props.form.validateFieldsAndScroll((err: ErrorEvent, values: any) => {
       if (!err) {
         const { email, password } = values;
-        AV.User.logIn(email, password).then(
-          e => {
-            props.dispatch({ type: 'global/login', payload: { name: e.attributes.username } });
-          },
-          () => {
-            message.error('邮箱或密码错误, 请重新输入');
-          },
-        );
+        props.dispatch({ type: 'global/login', payload: { email, password } });
       }
     });
   }
