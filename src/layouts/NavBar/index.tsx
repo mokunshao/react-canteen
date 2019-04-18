@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 import { Menu } from 'antd';
 import styles from './index.css';
 import { Link } from 'dva/router';
+import { connect } from 'dva';
 
 interface Props {
   location: { pathname: string };
+  state: { email: string; login: boolean };
 }
 
 function NavBar(props: Props) {
@@ -14,7 +16,8 @@ function NavBar(props: Props) {
   return (
     <nav className={styles.header}>
       <a className={styles.logo} href="#">
-        ❤
+        ❤{props.state.login.toString()}
+        {props.state.email}
       </a>
       <Menu
         className={styles['menu-left']}
@@ -45,4 +48,8 @@ function NavBar(props: Props) {
   );
 }
 
-export default NavBar;
+function mapStateToProps(state: any) {
+  return { state: state.global };
+}
+
+export default connect(mapStateToProps)(NavBar);

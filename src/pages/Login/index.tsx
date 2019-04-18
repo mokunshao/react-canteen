@@ -1,15 +1,17 @@
 import React from 'react';
 import Logo from 'Assets/logo.png';
 import styles from './index.scss';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { email_regexp, password_regexp } from '@/utilities/Regexp';
 import AV from '@/utilities/Leancloud';
+import { connect } from 'dva';
 
 interface UserFormProps extends FormComponentProps {
   history: {
     push: Function;
   };
+  dispatch: Function;
 }
 
 function Login(props: UserFormProps) {
@@ -34,10 +36,19 @@ function Login(props: UserFormProps) {
     props.form.validateFieldsAndScroll((err: ErrorEvent, values: any) => {
       if (!err) {
         const { email, password } = values;
-        AV.User.logIn(email, password).then(e => {
-          // console.log(e.attributes.username);
-          props.history.push('/admin');
-        });
+        AV.User.logIn(email, password).then(
+          e => {
+            // console.log(e.attributes.username);
+            props
+              .dispatch({ type: 'global/setUserInfo', payload: { name: e.attributes.username } })
+              .then(() => {
+                props.history.push('/admin');
+              });
+          },
+          () => {
+            message.error('邮箱或密码错误, 请重新输入');
+          },
+        );
       }
     });
   }
@@ -88,4 +99,4 @@ function Login(props: UserFormProps) {
   );
 }
 
-export default Form.create()(Login);
+export default connect()(Form.create()(Login));
