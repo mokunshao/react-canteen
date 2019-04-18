@@ -10,7 +10,6 @@ export default {
   },
   reducers: {
     signin(state: any, action: any) {
-      console.log(action);
       return {
         ...state,
         email: action.payload.email,
@@ -22,11 +21,12 @@ export default {
     *login(action: any, { call, put }: any) {
       const { email, password } = action.payload;
       try {
-        yield call(AV.User.logIn, email, password);
+        const result = yield call(AV.User.logIn, email, password);
         yield put({
           type: 'signin',
-          payload: action.payload,
+          payload: { email: result.attributes.username },
         });
+        sessionStorage.setItem('email', result.attributes.username);
         yield put(routerRedux.push('/admin'));
       } catch {
         message.error('邮箱或密码错误, 请重新输入');
