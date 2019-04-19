@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
 
-function Admin(props: any) {
+interface Props {
+  history: { push: Function };
+}
+
+function Admin(props: Props) {
   if (!sessionStorage.email || !sessionStorage.token) {
     props.history.push('/login');
   }

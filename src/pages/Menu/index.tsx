@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
 
-export default function Menu() {
-  return (
-    <div>
-      menu
-    </div>
-  )
+interface Props {
+  history: { push: Function };
+}
+
+export default function Menu(props: Props) {
+  if (!sessionStorage.email || !sessionStorage.token) {
+    props.history.push('/login');
+  }
+  return <div>menu</div>;
 }

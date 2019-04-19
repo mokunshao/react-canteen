@@ -9,21 +9,25 @@ const menu = [
     key: 'home',
     path: '/home',
     name: '主页',
+    toggle: false,
   },
   {
     key: 'menu',
     path: '/menu',
     name: '菜单',
+    toggle: false,
   },
   {
     key: 'admin',
     path: '/admin',
     name: '管理',
+    toggle: false,
   },
   {
     key: 'about',
     path: '/about',
     name: '关于我们',
+    toggle: false,
   },
   {
     key: 'login',
@@ -43,7 +47,6 @@ const menu = [
 
 interface Props {
   location: { pathname: string };
-  state: { email: string };
 }
 
 function NavBar(props: Props) {
@@ -53,7 +56,7 @@ function NavBar(props: Props) {
   return (
     <nav className={styles.header}>
       <a className={styles.logo} href="#">
-        ❤{props.state.email}
+        ❤{sessionStorage.email}
       </a>
       <Menu
         className={styles['menu-left']}
@@ -61,29 +64,15 @@ function NavBar(props: Props) {
         defaultSelectedKeys={['home']}
         selectedKeys={[seletedKeys()]}
       >
-        {menu.map(({key, path, name,className,toggle}) => {
-         return <Menu.Item key={key} className={styles[`${className}`]}>
-            <Link to={path}>{name}</Link>
-          </Menu.Item>
-        })}
-        {/* <Menu.Item key={'home'}>
-          <Link to={'/home'}>主页</Link>
-        </Menu.Item>
-        <Menu.Item key={'menu'}>
-          <Link to={'/menu'}>菜单</Link>
-        </Menu.Item>
-        <Menu.Item key={'admin'}>
-          <Link to={'/admin'}>管理</Link>
-        </Menu.Item>
-        <Menu.Item key={'about'}>
-          <Link to={'/about'}>关于我们</Link>
-        </Menu.Item>
-        <Menu.Item key={'login'} className={styles.login} style={{ position: 'absolute' }}>
-          <Link to={'/login'}>登录</Link>
-        </Menu.Item>
-        <Menu.Item key={'register'} className={styles.register} style={{ position: 'absolute' }}>
-          <Link to={'/register'}>注册</Link>
-        </Menu.Item> */}
+        {menu
+          .filter(({ toggle }) => !(toggle && sessionStorage.email && sessionStorage.token))
+          .map(({ key, path, name, className }) => {
+            return (
+              <Menu.Item key={key} className={styles[`${className}`]}>
+                <Link to={path}>{name}</Link>
+              </Menu.Item>
+            );
+          })}
       </Menu>
     </nav>
   );
