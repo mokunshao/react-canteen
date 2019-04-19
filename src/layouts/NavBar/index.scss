@@ -21,4 +21,16 @@
       right: 10px;
     }
   }
+  .dropdown {
+    position: absolute;
+    right: 10px;
+    .email {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .icon{
+      margin-left: 5px;
+    }
+  }
 }

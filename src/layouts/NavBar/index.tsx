@@ -1,7 +1,7 @@
 import React from 'react';
-import { Menu } from 'antd';
+import { Menu, Dropdown, Icon } from 'antd';
 import styles from './index.scss';
-import { Link } from 'dva/router';
+import { Link, withRouter } from 'dva/router';
 import { connect } from 'dva';
 
 const menu = [
@@ -47,9 +47,23 @@ const menu = [
 
 interface Props {
   location: { pathname: string };
+  history: { push: Function };
 }
 
 function NavBar(props: Props) {
+  let logoutMenu = (
+    <Menu>
+      <Menu.Item key={'logout'} onClick={logout}>
+        退出
+      </Menu.Item>
+    </Menu>
+  );
+  function logout({ key }: any): void {
+    if (key === 'logout') {
+      sessionStorage.clear();
+      props.history.push('/login');
+    }
+  }
   function seletedKeys(): string {
     return props.location.pathname.length >= 2 ? props.location.pathname.split('/')[1] : 'home';
   }
@@ -73,6 +87,14 @@ function NavBar(props: Props) {
               </Menu.Item>
             );
           })}
+        {sessionStorage.email && sessionStorage.token && (
+          <Dropdown overlay={logoutMenu} className={styles.dropdown}>
+            <a>
+              <span>{sessionStorage.email}</span>
+              <Icon className={styles.icon} type="down" />
+            </a>
+          </Dropdown>
+        )}
       </Menu>
     </nav>
   );
@@ -82,4 +104,4 @@ function mapStateToProps(state: any) {
   return { state: state.global };
 }
 
-export default connect(mapStateToProps)(NavBar);
+export default withRouter(connect(mapStateToProps)(NavBar));
