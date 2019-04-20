@@ -70,7 +70,7 @@ function NavBar(props: Props) {
   return (
     <nav className={styles.header}>
       <a className={styles.logo} href="#">
-        ❤{sessionStorage.email}
+        ❤
       </a>
       <Menu
         className={styles['menu-left']}
