@@ -11,30 +11,29 @@ export default function Menu(props: Props) {
     props.history.push('/login');
   }
   function handleAddToCart(record: any): any {
-    let newData: any
+    let newData: any;
     const index = cart.findIndex((item: any) => record.key === item.key);
-    if(index===-1){
+    if (index === -1) {
+      record.count = 1;
       newData = [...cart, record];
-    }else{
-      newData = [...cart]
+      setCart(newData);
     }
-    setCart(newData);
   }
   const columns = [
     {
       key: 'size',
       title: '尺寸',
       dataIndex: 'size',
-      render: (text: string,record:any) => {
-        if(record.price){
+      render: (text: string, record: any) => {
+        if (record.price) {
           return <span>{text}</span>;
-        }else{
+        } else {
           return {
-            children:<strong>{text}</strong>,
-            props:{
-              colSpan:2
-            }
-          }
+            children: <strong>{text}</strong>,
+            props: {
+              colSpan: 2,
+            },
+          };
         }
       },
     },
@@ -136,32 +135,36 @@ export default function Menu(props: Props) {
   // console.log(dataSource);
 
   function renderCartTable() {
-    function handleDecrease(record:any){
-
+    function handleDecrease(record: any) {
+      const index = cart.findIndex((item: any) => item.key === record.key);
+      let newCart = JSON.parse(JSON.stringify(cart));
+      let currentObject = newCart[index];
+      if (currentObject.count <= 1) {
+        newCart.splice(index, 1);
+      } else {
+        newCart.splice(index, 1, { ...currentObject, count: currentObject.count - 1 });
+      }
+      setCart(newCart);
     }
-    function handleIncrease(record:any){
-
+    function handleIncrease(record: any) {
+      const index = cart.findIndex((item: any) => item.key === record.key);
+      let newCart = JSON.parse(JSON.stringify(cart));
+      let currentObject = newCart[index];
+      newCart.splice(index, 1, { ...currentObject, count: currentObject.count + 1 });
+      setCart(newCart);
     }
     const columns: any[] = [
       {
         key: 'count',
         title: '数量',
         dataIndex: 'count',
-        render: (text:string, record:any) => (
+        render: (text: string, record: any) => (
           <span>
-            <Button
-              onClick={() => handleDecrease(record)}
-            >
-              -
-            </Button>
+            <Button onClick={() => handleDecrease(record)}>-</Button>
             <span>{record.count}</span>
-            <Button
-              onClick={() => handleIncrease(record)}
-            >
-              +
-            </Button>
+            <Button onClick={() => handleIncrease(record)}>+</Button>
           </span>
-        )
+        ),
       },
       {
         key: 'name',
@@ -175,7 +178,16 @@ export default function Menu(props: Props) {
       },
     ];
 
-    return <Table pagination={false} dataSource={cart} columns={columns} />;
+    return (
+      <Table
+        pagination={false}
+        dataSource={cart}
+        columns={columns}
+        locale={{
+          emptyText: '购物车没有任何商品',
+        }}
+      />
+    );
   }
 
   return (
