@@ -11,12 +11,15 @@ export default function Menu(props: Props) {
     props.history.push('/login');
   }
   function handleAddToCart(record: any): any {
-    let newData: any;
+    let newCart = JSON.parse(JSON.stringify(cart));
     const index = cart.findIndex((item: any) => record.key === item.key);
     if (index === -1) {
       record.count = 1;
-      newData = [...cart, record];
-      setCart(newData);
+      newCart = [...newCart, record];
+      setCart(newCart);
+    } else {
+      newCart[index].count += 1;
+      setCart(newCart);
     }
   }
   const columns = [
@@ -132,12 +135,16 @@ export default function Menu(props: Props) {
     }
   })(data);
 
-  // console.log(dataSource);
+  let newCart = JSON.parse(JSON.stringify(cart));
+  const totalPrice = newCart.reduce(
+    (total: number, item: any) => (total += item.price * item.count),
+    0,
+  );
 
   function renderCartTable() {
     function handleDecrease(record: any) {
-      const index = cart.findIndex((item: any) => item.key === record.key);
       let newCart = JSON.parse(JSON.stringify(cart));
+      const index = newCart.findIndex((item: any) => item.key === record.key);
       let currentObject = newCart[index];
       if (currentObject.count <= 1) {
         newCart.splice(index, 1);
@@ -147,8 +154,8 @@ export default function Menu(props: Props) {
       setCart(newCart);
     }
     function handleIncrease(record: any) {
-      const index = cart.findIndex((item: any) => item.key === record.key);
       let newCart = JSON.parse(JSON.stringify(cart));
+      const index = newCart.findIndex((item: any) => item.key === record.key);
       let currentObject = newCart[index];
       newCart.splice(index, 1, { ...currentObject, count: currentObject.count + 1 });
       setCart(newCart);
@@ -198,7 +205,7 @@ export default function Menu(props: Props) {
         </Col>
         <Col md={8} xs={24}>
           {renderCartTable()}
-          <p>总价: totalPrice</p>
+          <p>总价: {totalPrice}</p>
           <Button type="primary">提交</Button>
         </Col>
       </Row>
