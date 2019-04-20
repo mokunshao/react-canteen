@@ -1,22 +1,41 @@
-import React from 'react';
-import { Table, Button, Icon } from 'antd';
+import React, { useState } from 'react';
+import { Table, Button, Icon, Row, Col } from 'antd';
 
 interface Props {
   history: { push: Function };
 }
 
 export default function Menu(props: Props) {
+  const [cart, setCart] = useState([]);
   if (!sessionStorage.email || !sessionStorage.token) {
     props.history.push('/login');
   }
-
+  function handleAddToCart(record: any): any {
+    let newData: any
+    const index = cart.findIndex((item: any) => record.key === item.key);
+    if(index===-1){
+      newData = [...cart, record];
+    }else{
+      newData = [...cart]
+    }
+    setCart(newData);
+  }
   const columns = [
     {
       key: 'size',
       title: '尺寸',
       dataIndex: 'size',
-      render: (text: string) => {
-        return <span>{text}</span>;
+      render: (text: string,record:any) => {
+        if(record.price){
+          return <span>{text}</span>;
+        }else{
+          return {
+            children:<strong>{text}</strong>,
+            props:{
+              colSpan:2
+            }
+          }
+        }
       },
     },
     {
@@ -29,12 +48,12 @@ export default function Menu(props: Props) {
     },
     {
       key: 'action',
-      title: '加入',
+      title: '添加',
       dataIndex: 'action',
       render: (text: string, record: any) => {
         const plusButton = {
           children: (
-            <Button>
+            <Button onClick={() => handleAddToCart(record)}>
               <Icon type={'plus'} />
             </Button>
           ),
@@ -95,44 +114,82 @@ export default function Menu(props: Props) {
 
   let dataSource: any[] = [];
 
-  function dataTransfer(data: any) {
+  (function(data: any) {
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
         let item = data[key];
         dataSource.push({
           key: item.name,
-          name: item.name,
+          size: item.name,
         });
         item.options.forEach((options: any, index: number) => {
           dataSource.push({
             ...options,
+            name: item.name,
             key: item.name + index,
           });
         });
       }
     }
+  })(data);
+
+  // console.log(dataSource);
+
+  function renderCartTable() {
+    function handleDecrease(record:any){
+
+    }
+    function handleIncrease(record:any){
+
+    }
+    const columns: any[] = [
+      {
+        key: 'count',
+        title: '数量',
+        dataIndex: 'count',
+        render: (text:string, record:any) => (
+          <span>
+            <Button
+              onClick={() => handleDecrease(record)}
+            >
+              -
+            </Button>
+            <span>{record.count}</span>
+            <Button
+              onClick={() => handleIncrease(record)}
+            >
+              +
+            </Button>
+          </span>
+        )
+      },
+      {
+        key: 'name',
+        title: '菜单',
+        dataIndex: 'name',
+      },
+      {
+        key: 'price',
+        title: '价格',
+        dataIndex: 'price',
+      },
+    ];
+
+    return <Table pagination={false} dataSource={cart} columns={columns} />;
   }
-
-  dataTransfer(data);
-
-  console.log(dataSource);
-
-  // console.log({
-  //   '-LcB9ZXW8ZEkgrea': {
-  //     description: '好吃不贵',
-  //     name: '杭州西湖醋鱼',
-  //     options: [{ price: '138', size: '7' }, { price: '118', size: '5' }],
-  //   },
-  //   '-LcB9zLq4JuHpA5v': {
-  //     description: '特别好吃',
-  //     name: '狮子头',
-  //     options: [{ price: '8', size: '3' }, { price: '6', size: '2' }],
-  //   },
-  // });
 
   return (
     <div>
-      <Table pagination={false} dataSource={dataSource} columns={columns} />
+      <Row>
+        <Col md={16} xs={24}>
+          <Table pagination={false} dataSource={dataSource} columns={columns} />
+        </Col>
+        <Col md={8} xs={24}>
+          {renderCartTable()}
+          <p>总价: totalPrice</p>
+          <Button type="primary">提交</Button>
+        </Col>
+      </Row>
     </div>
   );
 }
