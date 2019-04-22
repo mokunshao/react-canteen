@@ -4,7 +4,7 @@ import styles from './index.scss';
 import { Form, Input, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { email_regexp, password_regexp } from '@/utilities/Regexp';
-import LC from '@/utilities/Leancloud';
+import LC from 'leancloud-storage';
 
 interface UserFormProps extends FormComponentProps {
   history: {

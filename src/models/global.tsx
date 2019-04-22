@@ -1,5 +1,5 @@
 import { routerRedux } from 'dva/router';
-import LC from '@/utilities/Leancloud';
+import LC from 'leancloud-storage';
 import { message } from 'antd';
 
 export default {

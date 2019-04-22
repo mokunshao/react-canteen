@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Table, Button, Icon, Row, Col } from 'antd';
-import LC from '@/utilities/LeanCloud';
+import LC from 'leancloud-storage';
 
 interface Props {
   history: { push: Function };
@@ -8,6 +8,7 @@ interface Props {
 
 export default function Menu(props: Props) {
   const query = new LC.Query('Food');
+  console.log(query)
   const [cart, setCart] = useState([]);
   if (!sessionStorage.email || !sessionStorage.token) {
     props.history.push('/login');

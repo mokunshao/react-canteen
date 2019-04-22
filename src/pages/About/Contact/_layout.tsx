@@ -1,19 +1,14 @@
 import React from 'react';
 import { Switch, Route, Link, Redirect } from 'dva/router';
-import styles from './index.scss';
-
-function Phone() {
-  return <div>客服热线：400400400</div>;
-}
-
-function Address() {
-  return <div>店铺地址：天河路三三街馒头大厦45楼</div>;
-}
+import styles from '../index.scss';
+import Phone from './Phone';
+import Addressd from './Address';
 
 interface Props {
   match: {
     params: { method: string };
   };
+  children: any;
 }
 
 export default function Contact(props: Props) {
@@ -34,11 +29,7 @@ export default function Contact(props: Props) {
           地址
         </Link>
       </div>
-      <Switch>
-        <Route path="/about/contact/phone" component={Phone} />
-        <Route path="/about/contact/address" component={Address} />
-        <Redirect to="/about/contact/phone" />
-      </Switch>
+      {props.children}
     </div>
   );
 }
