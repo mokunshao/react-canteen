@@ -13,7 +13,7 @@ function BasicLayout(props: Props) {
     <>
       <Layout className={styles.layout}>
         <Layout.Header className={styles.header}>
-          <Navbar location={props.location} />
+          <Navbar/>
         </Layout.Header>
         <Layout.Content className={styles.content}>{props.children}</Layout.Content>
       </Layout>

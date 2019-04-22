@@ -43,7 +43,6 @@ function Register(props: UserFormProps) {
       if (!err) {
         const { email, password } = values;
         LC.User.signUp(email, password).then(e => {
-          // console.log(e.attributes.username);
           props.history.push('/login');
         });
       }
