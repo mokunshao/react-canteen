@@ -1,10 +1,16 @@
 import React from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+import LC from '@/utilities/Leancloud';
+import { connect } from 'dva';
+import { withRouter } from 'dva/router';
 
-interface UserFormProps extends FormComponentProps {}
+interface UserFormProps extends FormComponentProps {
+  history: { push: Function };
+}
 
 function MenuAdder(props: UserFormProps) {
+  console.log(props);
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -16,7 +22,31 @@ function MenuAdder(props: UserFormProps) {
     },
     colon: false,
   };
-
+  function handleSubmit() {
+    props.form.validateFields((err, value) => {
+      if (!err) {
+        const { name, description, size1, price1, size2, price2 } = value;
+        const Food = LC.Object.extend('Food');
+        const food = new Food();
+        food.set('name', name);
+        food.set('description', description);
+        food.set('description', description);
+        food.set('size1', size1);
+        food.set('price1', price1);
+        food.set('size2', size2);
+        food.set('price2', price2);
+        food.save().then(
+          () => {
+            message.success('添加成功');
+            props.history.push('/menu');
+          },
+          () => {
+            message.error('添加失败');
+          },
+        );
+      }
+    });
+  }
   return (
     <div>
       <Form>
@@ -31,14 +61,14 @@ function MenuAdder(props: UserFormProps) {
           })(<Input />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label={'描述'}>
-          {props.form.getFieldDecorator('name', {
+          {props.form.getFieldDecorator('description', {
             rules: [
               {
                 required: true,
                 message: '请输入描述',
               },
             ],
-          })(<Input.TextArea/>)}
+          })(<Input.TextArea />)}
         </Form.Item>
         <h1>选项一：</h1>
         <Form.Item {...formItemLayout} label={'尺寸一'}>
@@ -83,11 +113,13 @@ function MenuAdder(props: UserFormProps) {
           })(<Input />)}
         </Form.Item>
         <Form.Item>
-        <Button type={'primary'}>提交</Button>
+          <Button type={'primary'} onClick={handleSubmit}>
+            提交
+          </Button>
         </Form.Item>
       </Form>
     </div>
   );
 }
 
-export default Form.create<UserFormProps>()(MenuAdder);
+export default withRouter(connect()(Form.create()(MenuAdder)));

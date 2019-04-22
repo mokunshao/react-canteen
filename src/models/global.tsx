@@ -1,5 +1,5 @@
 import { routerRedux } from 'dva/router';
-import AV from '@/utilities/Leancloud';
+import LC from '@/utilities/Leancloud';
 import { message } from 'antd';
 
 export default {
@@ -20,7 +20,7 @@ export default {
     *login(action: any, { call, put }: any) {
       const { email, password } = action.payload;
       try {
-        const result = yield call(AV.User.logIn, email, password);
+        const result = yield call(LC.User.logIn, email, password);
         yield put({
           type: 'signin',
           payload: { email: result.attributes.username },

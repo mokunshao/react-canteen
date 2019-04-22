@@ -4,7 +4,7 @@ import styles from './index.scss';
 import { Form, Input, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { email_regexp, password_regexp } from '@/utilities/Regexp';
-import AV from '@/utilities/Leancloud';
+import LC from '@/utilities/Leancloud';
 
 interface UserFormProps extends FormComponentProps {
   history: {
@@ -42,7 +42,7 @@ function Register(props: UserFormProps) {
     props.form.validateFieldsAndScroll((err: ErrorEvent, values: any) => {
       if (!err) {
         const { email, password } = values;
-        AV.User.signUp(email, password).then(e => {
+        LC.User.signUp(email, password).then(e => {
           // console.log(e.attributes.username);
           props.history.push('/login');
         });

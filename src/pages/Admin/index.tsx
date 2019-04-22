@@ -6,6 +6,26 @@ interface Props {
   history: { push: Function };
 }
 
+function Admin(props: Props) {
+  if (!sessionStorage.email || !sessionStorage.token) {
+    props.history.push('/login');
+  }
+
+  return (
+    <div>
+      <Row>
+        <Col sm={24} md={16}>
+          <MenuAdder />
+        </Col>
+        <Col sm={24} md={8}>
+          <h3>菜单</h3>
+          <MenuTable />
+        </Col>
+      </Row>
+    </div>
+  );
+}
+
 function MenuTable() {
   const columns = [
     {
@@ -38,26 +58,6 @@ function MenuTable() {
       columns={columns}
       locale={{ emptyText: '菜单没有商品' }}
     />
-  );
-}
-
-function Admin(props: Props) {
-  if (!sessionStorage.email || !sessionStorage.token) {
-    props.history.push('/login');
-  }
-
-  return (
-    <div>
-      <Row>
-        <Col sm={24} md={16}>
-          <MenuAdder />
-        </Col>
-        <Col sm={24} md={8}>
-          <h3>菜单</h3>
-          <MenuTable />
-        </Col>
-      </Row>
-    </div>
   );
 }
 
