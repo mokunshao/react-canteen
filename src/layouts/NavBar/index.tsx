@@ -3,6 +3,7 @@ import { Menu, Dropdown, Icon } from 'antd';
 import styles from './index.scss';
 import { Link, withRouter } from 'dva/router';
 import { connect } from 'dva';
+import LC from '@/utilities/LeanCloud';
 
 const menu = [
   {
@@ -60,6 +61,7 @@ function NavBar(props: Props) {
   );
   function logout({ key }: any): void {
     if (key === 'logout') {
+      LC.User.logOut();
       sessionStorage.clear();
       props.history.push('/login');
     }
