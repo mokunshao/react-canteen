@@ -1,83 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Icon, Row, Col } from 'antd';
 import LC from 'leancloud-storage';
+import styles from './style.scss';
 
 interface Props {
   history: { push: Function };
 }
 
 export default function Menu(props: Props) {
-  function a() {
-    // let data = {};
-    // data = {
-    //   1: {
-    //     name: '榴莲披萨',
-    //     description: '最好吃的披萨',
-    //     options: [
-    //       {
-    //         size: 9,
-    //         price: 38,
-    //       },
-    //       {
-    //         size: 12,
-    //         price: 48,
-    //       },
-    //     ],
-    //   },
-    //   2: {
-    //     name: '意大利披萨',
-    //     description: '最好吃的披萨',
-    //     options: [
-    //       {
-    //         size: 9,
-    //         price: 38,
-    //       },
-    //       {
-    //         size: 12,
-    //         price: 48,
-    //       },
-    //     ],
-    //   },
-    //   3: {
-    //     name: '水果披萨',
-    //     description: '最好吃的披萨',
-    //     options: [
-    //       {
-    //         size: 9,
-    //         price: 38,
-    //       },
-    //       {
-    //         size: 12,
-    //         price: 48,
-    //       },
-    //     ],
-    //   },
-    // };
-    // (function(data: any) {
-    //   for (const key in data) {
-    //     if (data.hasOwnProperty(key)) {
-    //       let item = data[key];
-    //       dataSource.push({
-    //         key: item.name,
-    //         size: item.name,
-    //       });
-    //       item.options.forEach((options: any, index: number) => {
-    //         dataSource.push({
-    //           ...options,
-    //           name: item.name,
-    //           key: item.name + index,
-    //         });
-    //       });
-    //     }
-    //   }
-    // })(data);
-    // console.log(dataSource)
-  }
-
   const [data, setData] = useState([]);
   useEffect(() => {
     const query = new LC.Query('Food');
-    let dataSource:any = [];
+    let dataSource: any = [];
     query
       .find()
       .then((e: any) => {
@@ -104,9 +38,7 @@ export default function Menu(props: Props) {
       .then(() => {
         setData(dataSource);
       });
-  },[]);
-
-  // console.log(dataSource);
+  }, []);
 
   const [cart, setCart] = useState([]);
   if (!sessionStorage.email || !sessionStorage.token) {
@@ -237,12 +169,19 @@ export default function Menu(props: Props) {
     <div>
       <Row>
         <Col md={16} xs={24}>
-          <Table pagination={false} dataSource={data} columns={columns} />
+          <Table
+            pagination={false}
+            dataSource={data}
+            columns={columns}
+            className={styles.leftTable}
+          />
         </Col>
         <Col md={8} xs={24}>
           {renderCartTable()}
           <p>总价: {totalPrice}</p>
-          <Button type="primary">提交</Button>
+          <Button type="primary" className={styles.longButton}>
+            提交
+          </Button>
         </Col>
       </Row>
     </div>

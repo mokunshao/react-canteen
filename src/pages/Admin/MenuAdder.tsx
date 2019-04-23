@@ -4,6 +4,7 @@ import { FormComponentProps } from 'antd/lib/form';
 import LC from 'leancloud-storage';
 import { connect } from 'dva';
 import { withRouter } from 'dva/router';
+import styles from './style.scss';
 
 interface UserFormProps extends FormComponentProps {
   history: { push: Function };
@@ -14,10 +15,18 @@ function MenuAdder(props: UserFormProps) {
     labelCol: {
       xs: { span: 24 },
       sm: { span: 2 },
+      md: { span: 2 },
+      lg: { span: 2 },
+      xl: { span: 2 },
+      xxl: { span: 2 },
     },
     wrapperCol: {
       xs: { span: 24 },
       sm: { span: 22 },
+      md: { span: 22 },
+      lg: { span: 22 },
+      xl: { span: 22 },
+      xxl: { span: 22 },
     },
     colon: false,
   };
@@ -47,7 +56,7 @@ function MenuAdder(props: UserFormProps) {
     });
   }
   return (
-    <div>
+    <div className={styles.leftForm}>
       <Form>
         <Form.Item {...formItemLayout} label={'品种'}>
           {props.form.getFieldDecorator('name', {
@@ -112,7 +121,7 @@ function MenuAdder(props: UserFormProps) {
           })(<Input />)}
         </Form.Item>
         <Form.Item>
-          <Button type={'primary'} onClick={handleSubmit}>
+          <Button type={'primary'} onClick={handleSubmit} className={styles.longButton}>
             提交
           </Button>
         </Form.Item>
