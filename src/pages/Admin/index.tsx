@@ -33,7 +33,6 @@ function MenuTable() {
     const query = new LC.Query('Food');
     let dataSource: any = [];
     query.find().then((e: any) => {
-      console.log(e);
       e.forEach((obj: any) => {
         dataSource.push({ key: obj.id, name: obj.attributes.name });
       });

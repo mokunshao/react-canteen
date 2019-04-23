@@ -4,7 +4,8 @@ import { Redirect } from 'react-router';
 
 // ref: https://umijs.org/config/
 const config: IConfig = {
-  base: '/react-canteen/',
+  base: '/react-canteen/dist/',
+  publicPath: '/react-canteen/dist/',
   alias: {
     Assets: path.resolve(__dirname, './src/assets'),
     '@': path.resolve(__dirname, './src/'),
@@ -12,6 +13,7 @@ const config: IConfig = {
   treeShaking: true,
   history: 'hash',
   plugins: [
+    'umi-plugin-gh-pages',
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     [
       'umi-plugin-react',
@@ -32,7 +34,6 @@ const config: IConfig = {
         },
       },
     ],
-    'umi-plugin-gh-pages',
   ],
 };
 
