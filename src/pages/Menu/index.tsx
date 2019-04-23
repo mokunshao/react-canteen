@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Icon, Row, Col } from 'antd';
-import LC from 'leancloud-storage';
+import LC from '@/utilities/LeanCloud';
 import styles from './style.scss';
 
 interface Props {

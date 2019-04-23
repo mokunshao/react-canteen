@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Table, Button, Icon, message } from 'antd';
 import MenuAdder from './MenuAdder';
-import LC from 'leancloud-storage';
+import LC from '@/utilities/LeanCloud';
 
 interface Props {
   history: { push: Function };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import LC from 'leancloud-storage';
+import LC from '@/utilities/LeanCloud';
 import { connect } from 'dva';
 import { withRouter } from 'dva/router';
 import styles from './style.scss';

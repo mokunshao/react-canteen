@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styles from './index.css';
 import { Layout } from 'antd';
 import Navbar from './NavBar';
-import LC from 'leancloud-storage';
+// import LC from 'leancloud-storage';
 
 interface Props {
   location: { pathname: string };
@@ -10,14 +10,14 @@ interface Props {
 }
 
 function BasicLayout(props: Props) {
-  useEffect(() => {
-    const APP_ID = 'x0vDpF24CaWvqROtxUFwreg2-gzGzoHsz';
-    const APP_KEY = 'IimT78gljN4nGnEq4hCffUXw';
-    LC.init({
-      appId: APP_ID,
-      appKey: APP_KEY,
-    });
-  }, []);
+  // useEffect(() => {
+  //   const APP_ID = 'x0vDpF24CaWvqROtxUFwreg2-gzGzoHsz';
+  //   const APP_KEY = 'IimT78gljN4nGnEq4hCffUXw';
+  //   LC.init({
+  //     appId: APP_ID,
+  //     appKey: APP_KEY,
+  //   });
+  // }, []);
   return (
     <>
       <Layout className={styles.layout}>
