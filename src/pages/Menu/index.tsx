@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Button, Icon, Row, Col } from 'antd';
 import LC from 'leancloud-storage';
 
@@ -7,12 +7,107 @@ interface Props {
 }
 
 export default function Menu(props: Props) {
-  const query = new LC.Query('Food');
-  query.find().then(e => {
-    e.forEach((item: any) => {
-      const { name, size1, price1, size2, price2 } = item.attributes;
-    });
-  });
+  function a() {
+    // let data = {};
+    // data = {
+    //   1: {
+    //     name: '榴莲披萨',
+    //     description: '最好吃的披萨',
+    //     options: [
+    //       {
+    //         size: 9,
+    //         price: 38,
+    //       },
+    //       {
+    //         size: 12,
+    //         price: 48,
+    //       },
+    //     ],
+    //   },
+    //   2: {
+    //     name: '意大利披萨',
+    //     description: '最好吃的披萨',
+    //     options: [
+    //       {
+    //         size: 9,
+    //         price: 38,
+    //       },
+    //       {
+    //         size: 12,
+    //         price: 48,
+    //       },
+    //     ],
+    //   },
+    //   3: {
+    //     name: '水果披萨',
+    //     description: '最好吃的披萨',
+    //     options: [
+    //       {
+    //         size: 9,
+    //         price: 38,
+    //       },
+    //       {
+    //         size: 12,
+    //         price: 48,
+    //       },
+    //     ],
+    //   },
+    // };
+    // (function(data: any) {
+    //   for (const key in data) {
+    //     if (data.hasOwnProperty(key)) {
+    //       let item = data[key];
+    //       dataSource.push({
+    //         key: item.name,
+    //         size: item.name,
+    //       });
+    //       item.options.forEach((options: any, index: number) => {
+    //         dataSource.push({
+    //           ...options,
+    //           name: item.name,
+    //           key: item.name + index,
+    //         });
+    //       });
+    //     }
+    //   }
+    // })(data);
+    // console.log(dataSource)
+  }
+
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const query = new LC.Query('Food');
+    let dataSource:any = [];
+    query
+      .find()
+      .then((e: any) => {
+        e.forEach((element: any) => {
+          let item = element.attributes;
+          dataSource.push({
+            key: item.name,
+            size: item.name,
+          });
+          dataSource.push({
+            price: item.price1,
+            size: item.size1,
+            name: item.name,
+            key: item.name + item.price1,
+          });
+          dataSource.push({
+            price: item.price2,
+            size: item.size2,
+            name: item.name,
+            key: item.name + item.price2,
+          });
+        });
+      })
+      .then(() => {
+        setData(dataSource);
+      });
+  },[]);
+
+  // console.log(dataSource);
+
   const [cart, setCart] = useState([]);
   if (!sessionStorage.email || !sessionStorage.token) {
     props.history.push('/login');
@@ -75,72 +170,6 @@ export default function Menu(props: Props) {
       },
     },
   ];
-
-  let data = {
-    1: {
-      name: '榴莲披萨',
-      description: '最好吃的披萨',
-      options: [
-        {
-          size: 9,
-          price: 38,
-        },
-        {
-          size: 12,
-          price: 48,
-        },
-      ],
-    },
-    2: {
-      name: '意大利披萨',
-      description: '最好吃的披萨',
-      options: [
-        {
-          size: 9,
-          price: 38,
-        },
-        {
-          size: 12,
-          price: 48,
-        },
-      ],
-    },
-    3: {
-      name: '水果披萨',
-      description: '最好吃的披萨',
-      options: [
-        {
-          size: 9,
-          price: 38,
-        },
-        {
-          size: 12,
-          price: 48,
-        },
-      ],
-    },
-  };
-
-  let dataSource: any[] = [];
-
-  (function(data: any) {
-    for (const key in data) {
-      if (data.hasOwnProperty(key)) {
-        let item = data[key];
-        dataSource.push({
-          key: item.name,
-          size: item.name,
-        });
-        item.options.forEach((options: any, index: number) => {
-          dataSource.push({
-            ...options,
-            name: item.name,
-            key: item.name + index,
-          });
-        });
-      }
-    }
-  })(data);
 
   let newCart = JSON.parse(JSON.stringify(cart));
   const totalPrice = newCart.reduce(
@@ -208,7 +237,7 @@ export default function Menu(props: Props) {
     <div>
       <Row>
         <Col md={16} xs={24}>
-          <Table pagination={false} dataSource={dataSource} columns={columns} />
+          <Table pagination={false} dataSource={data} columns={columns} />
         </Col>
         <Col md={8} xs={24}>
           {renderCartTable()}
