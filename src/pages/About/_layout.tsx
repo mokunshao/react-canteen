@@ -1,11 +1,7 @@
 import React from 'react';
 import { Tabs } from 'antd';
 import styles from './index.scss';
-import { Switch, Route, Redirect } from 'dva/router';
-import History from './History';
-import Contact from './Contact/_layout';
-import Docs from './Docs';
-import Delivery from './Delivery';
+
 
 interface Props {
   history: {
@@ -30,7 +26,8 @@ export default function About(props: Props) {
         tabPosition="left"
         className={styles.tabs}
         onChange={handleOnChange}
-        activeKey={props.match.params.section}
+        activeKey={props.location.pathname.split('/')[2]}
+        defaultActiveKey={'history'}
       >
         <Tabs.TabPane tab={'历史订餐'} key={'history'} />
         <Tabs.TabPane tab={'联系我们'} key={'contact'} />

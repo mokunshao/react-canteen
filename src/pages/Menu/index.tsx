@@ -8,7 +8,11 @@ interface Props {
 
 export default function Menu(props: Props) {
   const query = new LC.Query('Food');
-  console.log(query)
+  query.find().then(e => {
+    e.forEach((item: any) => {
+      const { name, size1, price1, size2, price2 } = item.attributes;
+    });
+  });
   const [cart, setCart] = useState([]);
   if (!sessionStorage.email || !sessionStorage.token) {
     props.history.push('/login');

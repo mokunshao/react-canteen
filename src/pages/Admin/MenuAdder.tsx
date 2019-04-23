@@ -10,7 +10,6 @@ interface UserFormProps extends FormComponentProps {
 }
 
 function MenuAdder(props: UserFormProps) {
-  console.log(props);
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },

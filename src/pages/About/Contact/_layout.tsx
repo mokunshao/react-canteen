@@ -1,14 +1,13 @@
 import React from 'react';
-import { Switch, Route, Link, Redirect } from 'dva/router';
+import { Link } from 'dva/router';
 import styles from '../index.scss';
-import Phone from './Phone';
-import Addressd from './Address';
 
 interface Props {
   match: {
     params: { method: string };
   };
   children: any;
+  location: { pathname: string };
 }
 
 export default function Contact(props: Props) {
@@ -18,13 +17,15 @@ export default function Contact(props: Props) {
       <div className={styles.links}>
         <Link
           to="/about/contact/phone"
-          className={props.match.params.method === 'phone' ? `${styles.selected}` : ''}
+          className={props.location.pathname.split('/')[3] === 'phone' ? `${styles.selected}` : ''}
         >
           电话
         </Link>
         <Link
           to="/about/contact/address"
-          className={props.match.params.method === 'address' ? `${styles.selected}` : ''}
+          className={
+            props.location.pathname.split('/')[3] === 'address' ? `${styles.selected}` : ''
+          }
         >
           地址
         </Link>
